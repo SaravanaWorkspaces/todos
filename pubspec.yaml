@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+    
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,6 +51,14 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  assets:   
+      - assets/images/ic_checkbox_marked_circle_plus_outline_grey600_24dp.png
+  fonts:
+    - family: Raleway
+      fonts:
+        - asset: fonts/Raleway-Regular.ttf
+        - asset: fonts/Raleway-BoldItalic.ttf
+        - asset: fonts/Raleway-Bold.ttf
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
