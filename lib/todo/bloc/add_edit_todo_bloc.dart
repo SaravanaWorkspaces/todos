@@ -9,7 +9,11 @@ class AddEditTodoBloc extends Bloc<AddEditTodoEvent, AddEditTodoState> {
   }
 
   void _insertTodo(AddTodo event, Emitter<AddEditTodoState> emit) async {
-    await DatabaseHelper().insertTodo(event.todo);
-    emit(AddTodoSuccess());
+    try {
+      await DatabaseHelper().insertTodo(event.todo);
+      emit(AddTodoSuccess());
+    } catch(e) {
+      emit(AddTodoFailed(e.toString()));
+    }
   }
 }

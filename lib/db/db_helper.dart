@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart' as p;
+import 'package:path/path.dart';
 import 'package:todos/model/todo.dart';
 
 class DatabaseHelper {
@@ -18,7 +18,7 @@ class DatabaseHelper {
   Future<Database> _initDB(String filePath) async {
     final dbPath =
         await getDatabasesPath(); // Returns relative path of DB directory/Document directory
-    final path = p.join(dbPath, filePath);
+    final path = join(dbPath, filePath);
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
@@ -28,7 +28,7 @@ class DatabaseHelper {
         'CREATE TABLE $TABLE_TODO (${TodoFields.ID}, ${TodoFields.TODO}, ${TodoFields.DESC}, ${TodoFields.TODAY}, ${TodoFields.CREATEDTS}, ${TodoFields.MODIFIEDTS})');
   }
 
-  Future<int?> insertTodo(Todo todo) async {
+  Future<void> insertTodo(Todo todo) async {
     var todoObj = {
       "todo"        : todo.todo,
       "desc"        : todo.desc,
@@ -36,8 +36,11 @@ class DatabaseHelper {
       "createdTs"   : todo.createdTs,
       "modifiedTs"  : todo.modifiedTs,
     };
-    
-    final rowId = await _database?.insert(TABLE_TODO, todoObj);
-    return rowId;
+    try {
+    final db = await database;
+    await db.insert(TABLE_TODO, todoObj);
+    } catch(e) {
+      throw  Exception("Insert Todo failed");
+    }
   }
 }
