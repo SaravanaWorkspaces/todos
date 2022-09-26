@@ -72,9 +72,10 @@ class _AddEditPageState extends State<AddEditPage> {
         key: _formKey,
         child: BlocListener<AddEditTodoBloc, AddEditTodoState>(
           listener: (context, state) => {
-            if (state is AddTodoSuccess){Navigator.pop(context)}
-            else if (state is AddTodoFailed) {
-              
+            if (state is AddTodoSuccess)
+              {Navigator.pop(context)}
+            else if (state is AddTodoFailed)
+              {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.message ?? "Failed"),

@@ -3,6 +3,10 @@ import 'package:path/path.dart';
 import 'package:todos/model/todo.dart';
 
 class DatabaseHelper {
+  String intTypeAutoInc = "INTEGER PRIMARY KEY AUTOINCREMENT";
+  String typeText = "TEXT";
+  String typeNumber = "NUMBER";
+
   String TABLE_TODO = "_todo";
   Database? _database;
 
@@ -23,24 +27,17 @@ class DatabaseHelper {
   }
 
   Future _onCreate(Database db, int version) async {
-    
     await db.execute(
-        'CREATE TABLE $TABLE_TODO (${TodoFields.ID}, ${TodoFields.TODO}, ${TodoFields.DESC}, ${TodoFields.TODAY}, ${TodoFields.CREATEDTS}, ${TodoFields.MODIFIEDTS})');
+        'CREATE TABLE $TABLE_TODO (${TodoFields.ID} $intTypeAutoInc, ${TodoFields.TODO} $typeText,' +
+            '${TodoFields.DESC} $typeText, ${TodoFields.TODAY} $typeText, ${TodoFields.CREATEDTS} $typeNumber, ${TodoFields.MODIFIEDTS} $typeNumber)');
   }
 
   Future<void> insertTodo(Todo todo) async {
-    var todoObj = {
-      "todo"        : todo.todo,
-      "desc"        : todo.desc,
-      "today"       : todo.today,
-      "createdTs"   : todo.createdTs,
-      "modifiedTs"  : todo.modifiedTs,
-    };
     try {
-    final db = await database;
-    await db.insert(TABLE_TODO, todoObj);
-    } catch(e) {
-      throw  Exception("Insert Todo failed");
+      final db = await database;
+      await db.insert(TABLE_TODO, todo.toMap());
+    } catch (e) {
+      throw Exception("Insert Todo failed");
     }
   }
 }
