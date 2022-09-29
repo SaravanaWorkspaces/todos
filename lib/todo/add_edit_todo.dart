@@ -16,8 +16,8 @@ class AddEditTodoScreen extends StatefulWidget {
 class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AddEditTodoBloc>(
-      create: (_) => AddEditTodoBloc(AddTodoInitial()),
+    return BlocProvider<TodoBloc>(
+      create: (_) => TodoBloc(AddTodoInitial()),
       child: const AddEditPage(),
     );
   }
@@ -51,8 +51,13 @@ class _AddEditPageState extends State<AddEditPage> {
                 bool today = isTodayChecked;
                 int createdTs = DateTime.now().millisecondsSinceEpoch;
                 int modifiedTs = DateTime.now().millisecondsSinceEpoch;
-                final todoObj = Todo(todo, today, desc, createdTs, modifiedTs);
-                context.read<AddEditTodoBloc>().add(AddTodo(todoObj));
+                final todoObj = Todo(
+                    todo: todo,
+                    today: today,
+                    desc: desc,
+                    createdTs: createdTs,
+                    modifiedTs: modifiedTs);
+                context.read<TodoBloc>().add(AddTodo(todoObj));
               }
             },
             icon: const Icon(Icons.done),
@@ -70,7 +75,7 @@ class _AddEditPageState extends State<AddEditPage> {
           const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
       child: Form(
         key: _formKey,
-        child: BlocListener<AddEditTodoBloc, AddEditTodoState>(
+        child: BlocListener<TodoBloc, AddEditTodoState>(
           listener: (context, state) => {
             if (state is AddTodoSuccess)
               {Navigator.pop(context)}

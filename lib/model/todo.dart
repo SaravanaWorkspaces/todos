@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class TodoFields {
-  static String ID = "id";
-  static String TODO = "todo";
-  static String TODAY = "today";
-  static String DESC = "desc";
-  static String CREATEDTS = "createdTs";
-  static String MODIFIEDTS = "modifiedTs";
+  static const String ID = "id";
+  static const String TODO = "todo";
+  static const String TODAY = "today";
+  static const String DESC = "desc";
+  static const String CREATEDTS = "createdTs";
+  static const String MODIFIEDTS = "modifiedTs";
 }
 
 class Todo extends Equatable {
@@ -17,7 +17,8 @@ class Todo extends Equatable {
   final int createdTs;
   final int modifiedTs;
 
-  const Todo(this.todo, this.today, this.desc, this.createdTs, this.modifiedTs, [this.id]);
+  const Todo({this.id, required this.todo, required this.today, required this.desc, 
+  required this.createdTs, required this.modifiedTs});
   
   @override
   List<Object?> get props => [];
@@ -33,14 +34,11 @@ class Todo extends Equatable {
      return map;
   }
 
-  Todo fromMap(Map<String, Object?> map) {
-    Todo obj = {
-      todo : map[TodoFields.TODO],
-      today : map[TodoFields.TODAY],
-      desc : map[TodoFields.DESC],
-      createdTs : map[TodoFields.CREATEDTS],
-      modifiedTs : map[TodoFields.MODIFIEDTS],
-    } as Todo;
-    return obj;
-  }
+  static Todo fromMap(Map<String, Object?> map) => Todo(
+    id: map[TodoFields.ID] as int,
+    todo : map[TodoFields.TODO] as String, 
+    today: map[TodoFields.TODAY] as String == "true" ? true : false, 
+    desc:map[TodoFields.DESC] as String,
+    createdTs : map[TodoFields.CREATEDTS] as int, 
+    modifiedTs: map[TodoFields.MODIFIEDTS] as int);
 }

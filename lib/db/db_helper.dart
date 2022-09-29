@@ -40,4 +40,15 @@ class DatabaseHelper {
       throw Exception("Insert Todo failed");
     }
   }
+
+  Future<List<Todo>> fetchTodoList() async {
+    const orderBy = '${TodoFields.MODIFIEDTS} DESC';
+    final db = await database;
+    final results = await db.query(TABLE_TODO, orderBy: orderBy);
+    if (results.isEmpty) {
+      return [];
+    } else {
+      return results.map((item) => Todo.fromMap(item)).toList();
+    }
+  }
 }

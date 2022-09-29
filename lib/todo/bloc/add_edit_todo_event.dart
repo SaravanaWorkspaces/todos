@@ -14,3 +14,7 @@ class AddTodo extends AddEditTodoEvent {
   List<Object?> get props => [];
 }
 
+class FetchAllTodo extends AddEditTodoEvent {
+  @override
+  List<Object?> get props => [];
+}
