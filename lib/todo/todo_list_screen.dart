@@ -30,7 +30,6 @@ class _TodoListState extends State<TodoList> {
         if (state is TodoListFetched) {
           return const Center(child: Text("Load list"));
         }
-        
         return const Center(child: Text("TODO list is empty"));
       },
     );
