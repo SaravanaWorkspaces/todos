@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/model/todo.dart';
+import 'package:todos/router_settings.dart';
 import 'package:todos/todo/bloc/add_edit_todo_bloc.dart';
 import 'package:todos/todo/bloc/add_edit_todo_event.dart';
 import 'package:todos/utils/utility.dart';
@@ -62,7 +63,9 @@ class _TodoListViewState extends State<TodoListView> {
         return Container(
           padding: const EdgeInsets.fromLTRB(8, 0, 8, 2),
           child: Card(
-            child: Container(
+            child: InkWell(
+              onTap: () => Navigator.pushNamed(context, RouterSettings.VIEW_TODO, arguments: index),
+              child: Container(
               padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,6 +82,7 @@ class _TodoListViewState extends State<TodoListView> {
                       Utility.tsToDate(widget.todoList[index].modifiedTs)),
                 ],
               ),
+            ),
             ),
           ),
         );
