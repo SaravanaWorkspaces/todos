@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:todos/router_settings.dart';
+import 'package:todos/utils/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'TODO',
       onGenerateRoute: RouterSettings.generateRoute,
-      theme: ThemeData(
-        fontFamily: 'Raleway',
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.defaultTheme,
       home: const SplashScreen(),
     );
   }
