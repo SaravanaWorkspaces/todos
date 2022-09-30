@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/db/db_helper.dart';
-import 'package:todos/todo/bloc/add_edit_todo_event.dart';
-import 'package:todos/todo/bloc/add_edit_todo_state.dart';
+import 'package:todos/todo/bloc/todo_event.dart';
+import 'package:todos/todo/bloc/todo_state.dart';
 
 class TodoBloc extends Bloc<AddEditTodoEvent, AddEditTodoState> {
   TodoBloc(AddTodoInitial initial) : super(initial) {

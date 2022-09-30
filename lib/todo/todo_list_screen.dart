@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/model/todo.dart';
 import 'package:todos/router_settings.dart';
-import 'package:todos/todo/bloc/add_edit_todo_bloc.dart';
-import 'package:todos/todo/bloc/add_edit_todo_event.dart';
+import 'package:todos/todo/bloc/todo_bloc.dart';
+import 'package:todos/todo/bloc/todo_event.dart';
 import 'package:todos/utils/utility.dart';
 
-import 'bloc/add_edit_todo_state.dart';
+import 'bloc/todo_state.dart';
 
 class TodoListScreen extends StatelessWidget {
   const TodoListScreen({Key? key}) : super(key: key);

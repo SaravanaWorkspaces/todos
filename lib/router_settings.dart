@@ -1,8 +1,8 @@
 import 'package:todos/main.dart';
 import 'package:flutter/material.dart';
 import 'package:todos/home/home_screen.dart';
-import 'package:todos/todo/add_edit_todo.dart';
-import 'package:todos/todo/view_todo.dart';
+import 'package:todos/todo/add_edit_todo_screen.dart';
+import 'package:todos/todo/todo_detail_screen.dart';
 
 class RouterSettings {
   static const String ROUTE = "/";

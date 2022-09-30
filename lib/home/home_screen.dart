@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todos/purchase/purchase_list_screen.dart';
 import 'package:todos/router_settings.dart';
-import 'package:todos/todo/bloc/add_edit_todo_bloc.dart';
-import 'package:todos/todo/bloc/add_edit_todo_state.dart';
+import 'package:todos/todo/bloc/todo_bloc.dart';
+import 'package:todos/todo/bloc/todo_state.dart';
 import 'package:todos/todo/todo_list_screen.dart';
 import 'package:todos/utils/constants.dart';
 
