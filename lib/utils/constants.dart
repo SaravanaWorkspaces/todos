@@ -13,8 +13,11 @@ class Constants {
   static const String ADD_EDIT_PURCHASE = "Add Purchase";
   static const String TODAY = "Today";
 
-  // Todo list
+  // Add/Edit todo
   static const String TODO_LIST_EMPTY = "TODO list is empty";
+
+  // Todo list
+  static const String COMMON_INPUT_VALIDATION = "Please enter some text";
   
   // Todo detail
   static const String DESCRIPTION = "Description";

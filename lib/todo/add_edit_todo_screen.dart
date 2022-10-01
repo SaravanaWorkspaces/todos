@@ -107,7 +107,7 @@ class _AddEditPageState extends State<AddEditPage> {
       controller: _todoTFFController,
       decoration: const InputDecoration(
         border: UnderlineInputBorder(),
-        labelText: 'Todo',
+        labelText: Constants.TODO_TAB_TITLE,
       ),
       validator: _inputFieldValidation,
     );
@@ -147,7 +147,7 @@ class _AddEditPageState extends State<AddEditPage> {
 
   String? _inputFieldValidation(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Please enter some text';
+      return Constants.COMMON_INPUT_VALIDATION;
     }
     return null;
   }
