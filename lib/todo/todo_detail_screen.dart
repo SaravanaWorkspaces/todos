@@ -17,7 +17,7 @@ class TodoDetailScreen extends StatelessWidget {
         title: const Text(Constants.TODO),
       ),
       body: BlocProvider<TodoBloc>(
-        create: (context) => TodoBloc(AddTodoInitial()),
+        create: (context) => TodoBloc(TodoInitial()),
         child: MyWidget(
           id: todoId,
         ),

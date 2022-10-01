@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen>
         body: MultiBlocProvider(
           providers: [
             BlocProvider<TodoBloc>(
-              create: (context) => TodoBloc(AddTodoInitial()),
+              create: (context) => TodoBloc(TodoInitial()),
             )
           ],
           child: TabBarView(

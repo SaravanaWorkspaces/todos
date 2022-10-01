@@ -4,7 +4,7 @@ import 'package:todos/todo/bloc/todo_event.dart';
 import 'package:todos/todo/bloc/todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
-  TodoBloc(AddTodoInitial initial) : super(initial) {
+  TodoBloc(TodoInitial initial) : super(initial) {
    on<AddTodo>(_insertTodo);
    on<FetchAllTodo>(_fetchAllTodo);
    on<GetTodoDetail>(_getTodoById);

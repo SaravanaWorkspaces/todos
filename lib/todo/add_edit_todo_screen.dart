@@ -17,7 +17,7 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<TodoBloc>(
-      create: (_) => TodoBloc(AddTodoInitial()),
+      create: (_) => TodoBloc(TodoInitial()),
       child: const AddEditPage(),
     );
   }
