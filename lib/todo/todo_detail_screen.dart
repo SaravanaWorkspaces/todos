@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todos/todo/bloc/todo_bloc.dart';
+import 'package:todos/todo/bloc/todo_event.dart';
+import 'package:todos/todo/bloc/todo_state.dart';
+import 'package:todos/utils/constants.dart';
+import 'package:todos/utils/utility.dart';
 
 class TodoDetailScreen extends StatelessWidget {
   final int todoId;
@@ -8,10 +14,25 @@ class TodoDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TODO"),
+        title: const Text(Constants.TODO),
       ),
-      body: DetailScreenBody(todoId: todoId),
+      body: BlocProvider<TodoBloc>(
+        create: (context) => TodoBloc(AddTodoInitial()),
+        child: MyWidget(
+          id: todoId,
+        ),
+      ),
     );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  final int id;
+  const MyWidget({Key? key, required this.id}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DetailScreenBody(todoId: id);
   }
 }
 
@@ -21,24 +42,41 @@ class DetailScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(left: 12, top: 16, right: 12, bottom: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildTitleWidget("TODO Definition is a detailed one"),
-          const SizedBox(height: 10),
-          _buildCreatedDateAndStatus(),
-          const SizedBox(height: 10),
-          _buildLabel("Modified on"),
-          _buildLabelValue("22/07/2022 12:00 PM"),
-          const SizedBox(height: 25),
-          _buildLabel("Description"),
-          _buildDescriptionWidget(
-              "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."),
-        ],
-      ),
-    );
+    context.read<TodoBloc>().add(GetTodoDetail(todoId));
+    return BlocBuilder<TodoBloc, TodoState>(builder: (context, state) {
+      if (state is TodoDetail) {
+        final todo = state.todo;
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 12, top: 16, right: 12, bottom: 8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildTitleWidget(todo.todo),
+              const SizedBox(height: 10),
+              _buildCreatedDateAndStatus(
+                  Utility.tsToDate(todo.modifiedTs, Constants.DATE_FOAMAT_2),
+                  "Completed"),
+              const SizedBox(height: 10),
+              _buildLabel(Constants.MODIFIED_ON),
+              _buildLabelValue(
+                  Utility.tsToDate(todo.modifiedTs, Constants.DATE_FOAMAT_2)),
+              const SizedBox(height: 25),
+              _buildLabel(Constants.DESCRIPTION),
+              _buildDescriptionWidget(todo.desc!),
+            ],
+          ),
+        );
+      } else if (state is TodoNotExists) {
+        return Center(
+          child: Text(state.message),
+        );
+      } else {
+        return const Center(
+          child: Text(Constants.SOMETHING_WENT_WRONG),
+        );
+      }
+    });
   }
 
   _buildTitleWidget(String text) {
@@ -48,7 +86,7 @@ class DetailScreenBody extends StatelessWidget {
   }
 
   _buildLabel(String text) {
-    return Text(text, style: TextStyle(color: Colors.grey[700]));
+    return Text(text, style: TextStyle(color: Colors.grey[600]));
   }
 
   _buildLabelValue(String text) {
@@ -65,10 +103,10 @@ class DetailScreenBody extends StatelessWidget {
     );
   }
 
-  _buildCreatedDateAndStatus() {
+  _buildCreatedDateAndStatus(String dateText, String status) {
     return Row(children: [
-      _buildCreatedDate("22/07/2022 12:00 PM"),
-      _buildStatus("Completed"),
+      _buildCreatedDate(dateText),
+      _buildStatus(status),
     ]);
   }
 
@@ -77,7 +115,7 @@ class DetailScreenBody extends StatelessWidget {
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildLabel("Created on"),
+        _buildLabel(Constants.CREATED_ON),
         _buildLabelValue(text),
       ],
     ));
@@ -86,11 +124,11 @@ class DetailScreenBody extends StatelessWidget {
   _buildStatus(String text) {
     return Expanded(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            _buildLabel("Status"),
-            _buildLabelValue(text),
-          ],
-        ));
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        _buildLabel(Constants.STATUS),
+        _buildLabelValue(text),
+      ],
+    ));
   }
 }

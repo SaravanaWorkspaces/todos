@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen>
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             if (_tabController.index == 0) {
-              Navigator.pushNamed(context, RouterSettings.ADD_EDIT_TODO);
+              Navigator.pushNamed(context, RouterSettings.ADD_EDIT_TODO).then((value) => setState(() {}));
             } else {
               Navigator.pushNamed(context, RouterSettings.ADD_EDIT_PURCHASE);
             }
@@ -61,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen>
           ],
           child: TabBarView(
             controller: _tabController,
-            children: const [TodoListScreen(), PurchaseListScreen()],
+            children: [TodoListScreen(), PurchaseListScreen()],
           ),
         ));
   }

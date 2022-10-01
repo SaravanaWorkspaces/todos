@@ -4,15 +4,17 @@ import 'package:todos/router_settings.dart';
 import 'package:todos/utils/themes.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorObservers: [routeObserver],
       title: 'TODO',
       onGenerateRoute: RouterSettings.generateRoute,
       theme: AppTheme.defaultTheme,

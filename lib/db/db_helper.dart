@@ -36,6 +36,7 @@ class DatabaseHelper {
     try {
       final db = await database;
       await db.insert(TABLE_TODO, todo.toMap());
+      db.close();
     } catch (e) {
       throw Exception("Insert Todo failed");
     }
@@ -49,6 +50,17 @@ class DatabaseHelper {
       return [];
     } else {
       return results.map((item) => Todo.fromMap(item)).toList();
+    }
+  }
+
+  Future<Todo> getTodoById(int id) async {
+    String whereString = '${TodoFields.ID} = ?';
+    final db = await database;
+    final results = await db.query(TABLE_TODO, where: whereString, whereArgs: [id]);
+    if(results.isEmpty) {
+      throw Exception("TODO not exists");
+    } else {
+      return Todo.fromMap(results.first);
     }
   }
 }

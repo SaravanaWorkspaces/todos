@@ -75,7 +75,7 @@ class _AddEditPageState extends State<AddEditPage> {
           const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
       child: Form(
         key: _formKey,
-        child: BlocListener<TodoBloc, AddEditTodoState>(
+        child: BlocListener<TodoBloc, TodoState>(
           listener: (context, state) => {
             if (state is AddTodoSuccess)
               {Navigator.pop(context)}
@@ -123,7 +123,7 @@ class _AddEditPageState extends State<AddEditPage> {
                 isTodayChecked = changed!;
               });
             }),
-        const Text("Today")
+        const Text(Constants.TODAY)
       ],
     );
   }
@@ -137,7 +137,7 @@ class _AddEditPageState extends State<AddEditPage> {
         keyboardType: TextInputType.multiline,
         decoration: const InputDecoration(
           border: UnderlineInputBorder(),
-          labelText: 'Description',
+          labelText: Constants.DESCRIPTION,
           alignLabelWithHint: true,
         ),
         validator: _inputFieldValidation,

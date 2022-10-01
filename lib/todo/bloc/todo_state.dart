@@ -1,28 +1,44 @@
 import 'package:equatable/equatable.dart';
 import 'package:todos/model/todo.dart';
 
-abstract class AddEditTodoState extends Equatable {
-  const AddEditTodoState();
+abstract class TodoState extends Equatable {
+  const TodoState();
 
-   @override
+  @override
   List<Object> get props => [];
 }
 
-class AddTodoInitial extends AddEditTodoState {}
+class AddTodoInitial extends TodoState {}
 
-class AddTodoSuccess extends AddEditTodoState {}
+class AddTodoSuccess extends TodoState {}
 
-class AddTodoFailed extends AddEditTodoState {
+class AddTodoFailed extends TodoState {
   final String? message;
   const AddTodoFailed(this.message);
 }
 
-class TodoListFetched extends AddEditTodoState {
+class TodoListFetched extends TodoState {
   final List<Todo> todoList;
   const TodoListFetched(this.todoList);
+
+   @override
+  List<Object> get props => [todoList];
 }
 
-class TodoListFetchFailed extends AddEditTodoState {
+class TodoListEmpty extends TodoState {
+}
+
+class TodoListFetchFailed extends TodoState {
   final String? message;
   const TodoListFetchFailed(this.message);
+}
+
+class TodoDetail extends TodoState {
+  final Todo todo;
+  const TodoDetail(this.todo);
+}
+
+class TodoNotExists extends TodoState {
+  final String message;
+  const TodoNotExists(this.message);
 }

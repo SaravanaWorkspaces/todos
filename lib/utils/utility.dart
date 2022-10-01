@@ -2,8 +2,8 @@ import 'package:intl/intl.dart';
 
 class Utility {
 
-  static String tsToDate(int ts) {
+  static String tsToDate(int ts, [String? format]) {
     var dt = DateTime.fromMillisecondsSinceEpoch(ts);
-    return DateFormat('dd-MMM-yyy hh:mm a').format(dt);
+    return DateFormat(format ??='dd-MMM-yyy hh:mm a').format(dt);
   }
 }
