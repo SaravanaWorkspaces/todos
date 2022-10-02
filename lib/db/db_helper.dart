@@ -63,4 +63,22 @@ class DatabaseHelper {
       return Todo.fromMap(results.first);
     }
   }
+
+  Future<int> updateTodo(int id, int modifiedTs, [String? todo, String? desc, bool? isToday]) async {
+    String whereString = '${TodoFields.ID} = ?';
+    Map<String, dynamic> row = {};
+    if(todo != null) row[TodoFields.TODO] = todo;
+    if(desc != null) row[TodoFields.DESC] = desc;
+    if(isToday != null) row[TodoFields.TODAY] = isToday.toString();
+    row[TodoFields.MODIFIEDTS] = modifiedTs;
+
+    try {
+      final db = await database;
+      int updateCount = await db.update(TABLE_TODO, row, where: whereString, whereArgs: [id]);
+      db.close();
+      return updateCount;
+    } catch(e) {
+      throw Exception(e.toString());
+    }
+  }
 }

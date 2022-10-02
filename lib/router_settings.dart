@@ -19,10 +19,19 @@ class RouterSettings {
       case HOME_SCREEN:
         return MaterialPageRoute(builder: ((_) => const HomeScreen()));
       case ADD_EDIT_TODO:
-        return MaterialPageRoute(builder: ((_) => const AddEditTodoScreen()));
-        case VIEW_TODO:
-        final int todoId = (args as int);
-        return MaterialPageRoute(builder: ((_) => TodoDetailScreen(todoId: todoId)));
+        int? todoId;
+        if (args != null) {
+          todoId = (args as int);
+        }
+        return MaterialPageRoute(
+            builder: ((_) => AddEditTodoScreen(todoId: todoId)));
+      case VIEW_TODO:
+        int? todoId;
+        if (args != null) {
+          todoId = (args as int);
+        }
+        return MaterialPageRoute(
+            builder: ((_) => TodoDetailScreen(todoId: todoId!)));
       default:
         return MaterialPageRoute(
           builder: ((_) => Scaffold(

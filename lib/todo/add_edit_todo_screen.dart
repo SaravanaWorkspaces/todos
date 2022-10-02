@@ -7,7 +7,8 @@ import 'package:todos/todo/bloc/todo_state.dart';
 import 'package:todos/utils/constants.dart';
 
 class AddEditTodoScreen extends StatefulWidget {
-  const AddEditTodoScreen({Key? key}) : super(key: key);
+  final int? todoId;
+  const AddEditTodoScreen({Key? key, this.todoId}) : super(key: key);
 
   @override
   State<AddEditTodoScreen> createState() => _AddEditTodoScreenState();
@@ -18,25 +19,31 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
   Widget build(BuildContext context) {
     return BlocProvider<TodoBloc>(
       create: (_) => TodoBloc(TodoInitial()),
-      child: const AddEditPage(),
+      child: AddEditPage(todoId: widget.todoId),
     );
   }
 }
 
 class AddEditPage extends StatefulWidget {
-  const AddEditPage({Key? key}) : super(key: key);
+  final int? todoId;
+  const AddEditPage({Key? key, this.todoId}) : super(key: key);
 
   @override
   State<AddEditPage> createState() => _AddEditPageState();
 }
 
 class _AddEditPageState extends State<AddEditPage> {
+  bool editTodo = false;
   bool isTodayChecked = true;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _todoTFFController = TextEditingController();
   final TextEditingController _descTFFController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    editTodo = widget.todoId != null ? true : false;
+    if (editTodo) {
+      context.read<TodoBloc>().add(GetTodoDetail(widget.todoId!));
+    }
     return Scaffold(
       appBar: AppBar(
         title: const Text(Constants.ADD_EDIT_TODO),
@@ -57,7 +64,14 @@ class _AddEditPageState extends State<AddEditPage> {
                     desc: desc,
                     createdTs: createdTs,
                     modifiedTs: modifiedTs);
-                context.read<TodoBloc>().add(AddTodo(todoObj));
+                if (editTodo) {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.read<TodoBloc>().add(
+                      EditTodo(widget.todoId!, modifiedTs, todo, desc, today));
+                } else {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.read<TodoBloc>().add(AddTodo(todoObj));
+                }
               }
             },
             icon: const Icon(Icons.done),
@@ -75,9 +89,9 @@ class _AddEditPageState extends State<AddEditPage> {
           const EdgeInsets.only(left: 16.0, top: 8.0, right: 16.0, bottom: 8.0),
       child: Form(
         key: _formKey,
-        child: BlocListener<TodoBloc, TodoState>(
+        child: BlocConsumer<TodoBloc, TodoState>(
           listener: (context, state) => {
-            if (state is AddTodoSuccess)
+            if (state is AddTodoSuccess || state is EditTodoSuccess)
               {Navigator.pop(context)}
             else if (state is AddTodoFailed)
               {
@@ -88,13 +102,29 @@ class _AddEditPageState extends State<AddEditPage> {
                 )
               }
           },
-          child: Column(
-            children: [
-              _todoTextFormField(),
-              _todayCheckbox(),
-              _descTextFormField(),
-            ],
-          ),
+          buildWhen: (context, state) {
+            if (state is TodoDetail) {
+              return true;
+            }
+            return false;
+          },
+          builder: (context, state) {
+            Todo? todo;
+            if (state is TodoDetail) {
+              todo = state.todo;
+              _todoTFFController.text = todo.todo;
+              _descTFFController.text = todo.desc;
+              isTodayChecked = todo.today;
+            }
+            return Form(
+                child: Column(
+              children: [
+                _todoTextFormField(),
+                _todayCheckbox(),
+                _descTextFormField(),
+              ],
+            ));
+          },
         ),
       ),
     );

@@ -36,9 +36,17 @@ class TodoListFetchFailed extends TodoState {
 class TodoDetail extends TodoState {
   final Todo todo;
   const TodoDetail(this.todo);
+  @override
+  List<Todo> get props => [todo];
 }
 
 class TodoNotExists extends TodoState {
   final String message;
   const TodoNotExists(this.message);
+}
+
+class EditTodoSuccess extends TodoState {}
+class EditTodoFailed extends TodoState {
+  final String? message;
+  const EditTodoFailed(this.message);
 }

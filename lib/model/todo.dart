@@ -13,7 +13,7 @@ class Todo extends Equatable {
   final int? id;
   final String todo;
   final bool today;
-  final String? desc;
+  final String desc;
   final int createdTs;
   final int modifiedTs;
 

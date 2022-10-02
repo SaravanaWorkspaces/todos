@@ -25,6 +25,16 @@ class GetTodoDetail extends TodoEvent {
   const GetTodoDetail(this.id);
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id];
 }
 
+class EditTodo extends TodoEvent {
+  final int id;
+  final String? todo;
+  final String? desc;
+  final bool? isToday;
+  final int modifiedTs;
+  const EditTodo(this.id, this.modifiedTs, [this.todo, this.desc, this.isToday]);  
+  @override
+  List<Object?> get props => [];
+}
