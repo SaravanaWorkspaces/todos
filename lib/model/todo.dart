@@ -21,7 +21,7 @@ class Todo extends Equatable {
   required this.createdTs, required this.modifiedTs});
   
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [id, todo, today, desc, createdTs, modifiedTs];
 
   Map<String, Object?> toMap() {
      var map = <String, Object?> {

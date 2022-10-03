@@ -25,10 +25,11 @@ class _TodoDetailScreenState extends State<TodoDetailScreen> {
           title: const Text(Constants.TODO),
           actions: [
             IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(
+                onPressed: () async {
+                  await Navigator.pushNamed(
                       context, RouterSettings.ADD_EDIT_TODO,
                       arguments: widget.todoId);
+                      setState(() {});
                 },
                 icon: const Icon(Icons.edit))
           ],
@@ -64,7 +65,7 @@ class _DetailScreenBodyState extends State<DetailScreenBody> {
                 _buildTitleWidget(todo.todo),
                 const SizedBox(height: 10),
                 _buildCreatedDateAndStatus(
-                    Utility.tsToDate(todo.modifiedTs, Constants.DATE_FOAMAT_2),
+                    Utility.tsToDate(todo.createdTs, Constants.DATE_FOAMAT_2),
                     "Completed"),
                 const SizedBox(height: 10),
                 _buildLabel(Constants.MODIFIED_ON),
@@ -86,15 +87,10 @@ class _DetailScreenBodyState extends State<DetailScreenBody> {
           );
         }
       },
-      buildWhen: (previous, current) {
-        print("Build when ${previous} ${current}");
-        return true;
-      },
     );
   }
 
   _buildTitleWidget(String text) {
-    print("_buildTitleWidget rendered $text");
     return Padding(
         padding: const EdgeInsets.only(top: 4, bottom: 4),
         child: Text(text, style: const TextStyle(fontSize: 18.0)));

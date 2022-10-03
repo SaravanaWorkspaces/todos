@@ -36,9 +36,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   void _getTodoById(GetTodoDetail event, Emitter<TodoState> emit) async {
     try {
       final todo = await DatabaseHelper().getTodoById(event.id);
-      print("_getTodoById emitts ${todo.todo}");
       emit(TodoDetail(todo));
-      print("_getTodoById emitted ${todo.modifiedTs}");
     } catch (e) {
       emit(TodoNotExists(e.toString()));
     }

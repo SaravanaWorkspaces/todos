@@ -70,8 +70,10 @@ class _TodoListViewState extends State<TodoListView> {
           child: Card(
             child: InkWell(
               onTap: () => Navigator.pushNamed(
-                  context, RouterSettings.VIEW_TODO,
-                  arguments: widget.todoList[index].id),
+                      context, RouterSettings.VIEW_TODO,
+                      arguments: widget.todoList[index].id)
+                  .then(
+                      (value) => context.read<TodoBloc>().add(FetchAllTodo())),
               child: Container(
                 padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                 child: Column(
@@ -86,7 +88,8 @@ class _TodoListViewState extends State<TodoListView> {
                     Text(
                         textAlign: TextAlign.end,
                         style: const TextStyle(fontSize: 10.0),
-                        Utility.tsToDate(widget.todoList[index].modifiedTs, Constants.DATE_FOAMAT_2)),
+                        Utility.tsToDate(widget.todoList[index].modifiedTs,
+                            Constants.DATE_FOAMAT_2)),
                   ],
                 ),
               ),
