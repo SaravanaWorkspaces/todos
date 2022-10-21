@@ -11,8 +11,7 @@ class Constants {
   static const String PURCHASE_TAB_TITLE = "Purchase";
   static const String ADD_EDIT_TODO = "Add Todo";
   static const String ADD_EDIT_PURCHASE = "Add Purchase";
-  static const String TODAY = "Today";
-
+  
   // Add/Edit todo
   static const String TODO_LIST_EMPTY = "TODO list is empty";
 
@@ -24,5 +23,7 @@ class Constants {
   static const String MODIFIED_ON = "Modified on";
   static const String CREATED_ON = "Created on";
   static const String STATUS = "Status";
+  static const String PENDING = "Pending";
+  static const String COMPLETED = "Completed";
 
 }

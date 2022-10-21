@@ -34,7 +34,7 @@ class AddEditPage extends StatefulWidget {
 
 class _AddEditPageState extends State<AddEditPage> {
   bool editTodo = false;
-  bool isTodayChecked = true;
+  bool isCompleted = false;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _todoTFFController = TextEditingController();
   final TextEditingController _descTFFController = TextEditingController();
@@ -45,6 +45,7 @@ class _AddEditPageState extends State<AddEditPage> {
       context.read<TodoBloc>().add(GetTodoDetail(widget.todoId!));
     }
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: AppBar(
         title: const Text(Constants.ADD_EDIT_TODO),
         actionsIconTheme: const IconThemeData(color: Colors.white),
@@ -55,20 +56,19 @@ class _AddEditPageState extends State<AddEditPage> {
                   _formKey.currentState!.validate()) {
                 String todo = _todoTFFController.text;
                 String desc = _descTFFController.text;
-                bool today = isTodayChecked;
                 int createdTs = DateTime.now().millisecondsSinceEpoch;
                 int modifiedTs = DateTime.now().millisecondsSinceEpoch;
-                final todoObj = Todo(
-                    todo: todo,
-                    today: today,
-                    desc: desc,
-                    createdTs: createdTs,
-                    modifiedTs: modifiedTs);
                 if (editTodo) {
                   FocusManager.instance.primaryFocus?.unfocus();
-                  context.read<TodoBloc>().add(
-                      EditTodo(widget.todoId!, modifiedTs, todo, desc, today));
+                  context.read<TodoBloc>().add(EditTodo(
+                      widget.todoId!, modifiedTs, todo, desc, isCompleted));
                 } else {
+                  final todoObj = Todo(
+                      todo: todo,
+                      desc: desc,
+                      createdTs: createdTs,
+                      modifiedTs: modifiedTs,
+                      completed: false);
                   FocusManager.instance.primaryFocus?.unfocus();
                   context.read<TodoBloc>().add(AddTodo(todoObj));
                 }
@@ -114,16 +114,12 @@ class _AddEditPageState extends State<AddEditPage> {
               todo = state.todo;
               _todoTFFController.text = todo.todo;
               _descTFFController.text = todo.desc;
-              isTodayChecked = todo.today;
             }
             return Form(
-                child: Column(
-              children: [
-                _todoTextFormField(),
-                _todayCheckbox(),
-                _descTextFormField(),
-              ],
-            ));
+              child: Column(
+                children: [_todoTextFormField(), _bottomViewInsideExpanded()],
+              ),
+            );
           },
         ),
       ),
@@ -143,35 +139,49 @@ class _AddEditPageState extends State<AddEditPage> {
     );
   }
 
-  _todayCheckbox() {
-    return Row(
-      children: [
-        Checkbox(
-            value: isTodayChecked,
+  _completeCheckbox() {
+    return Visibility(
+      visible: editTodo,
+      child: Row(
+        children: [
+          Checkbox(
+            value: isCompleted,
             onChanged: (changed) {
-              setState(() {
-                isTodayChecked = changed!;
-              });
-            }),
-        const Text(Constants.TODAY)
-      ],
+              setState(
+                () {
+                  isCompleted = changed!;
+                },
+              );
+            },
+          ),
+          const Text(Constants.COMPLETED)
+        ],
+      ),
     );
   }
 
-  _descTextFormField() {
+  _bottomViewInsideExpanded() {
     return Expanded(
-      child: TextFormField(
-        minLines: 4,
-        maxLines: 6,
-        controller: _descTFFController,
-        keyboardType: TextInputType.multiline,
-        decoration: const InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: Constants.DESCRIPTION,
-          alignLabelWithHint: true,
-        ),
-        validator: _inputFieldValidation,
+        child: Column(
+      children: [
+        _descTextFormField(),
+        _completeCheckbox(),
+      ],
+    ));
+  }
+
+  _descTextFormField() {
+    return TextFormField(
+      minLines: 4,
+      maxLines: 6,
+      controller: _descTFFController,
+      keyboardType: TextInputType.multiline,
+      decoration: const InputDecoration(
+        border: UnderlineInputBorder(),
+        labelText: Constants.DESCRIPTION,
+        alignLabelWithHint: true,
       ),
+      validator: _inputFieldValidation,
     );
   }
 

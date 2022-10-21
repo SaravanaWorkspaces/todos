@@ -66,7 +66,7 @@ class _DetailScreenBodyState extends State<DetailScreenBody> {
                 const SizedBox(height: 10),
                 _buildCreatedDateAndStatus(
                     Utility.tsToDate(todo.createdTs, Constants.DATE_FOAMAT_2),
-                    "Completed"),
+                    todo.completed ? Constants.COMPLETED : Constants.PENDING),
                 const SizedBox(height: 10),
                 _buildLabel(Constants.MODIFIED_ON),
                 _buildLabelValue(

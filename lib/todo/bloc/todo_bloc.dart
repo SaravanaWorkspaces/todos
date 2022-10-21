@@ -45,7 +45,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   void _editTodo(EditTodo event, Emitter<TodoState> emit) async {
     try {
       await DatabaseHelper().updateTodo(
-          event.id, event.modifiedTs, event.todo, event.desc, event.isToday);
+          event.id, event.modifiedTs, event.todo, event.desc, event.isCompleted);
           emit(EditTodoSuccess());
     } catch (e) {
       emit(EditTodoFailed(e.toString()));

@@ -32,9 +32,9 @@ class EditTodo extends TodoEvent {
   final int id;
   final String? todo;
   final String? desc;
-  final bool? isToday;
+  final bool? isCompleted;
   final int modifiedTs;
-  const EditTodo(this.id, this.modifiedTs, [this.todo, this.desc, this.isToday]);  
+  const EditTodo(this.id, this.modifiedTs, [this.todo, this.desc, this.isCompleted]);  
   @override
   List<Object?> get props => [];
 }

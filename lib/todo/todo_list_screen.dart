@@ -79,17 +79,8 @@ class _TodoListViewState extends State<TodoListView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
-                      child: Text(
-                          style: const TextStyle(fontSize: 18.0),
-                          widget.todoList[index].todo),
-                    ),
-                    Text(
-                        textAlign: TextAlign.end,
-                        style: const TextStyle(fontSize: 10.0),
-                        Utility.tsToDate(widget.todoList[index].modifiedTs,
-                            Constants.DATE_FOAMAT_2)),
+                    todoTitleWidget(index),
+                    todoTimeWidget(index),
                   ],
                 ),
               ),
@@ -97,6 +88,22 @@ class _TodoListViewState extends State<TodoListView> {
           ),
         );
       }),
+    );
+  }
+
+  Text todoTimeWidget(int index) {
+    return Text(
+        textAlign: TextAlign.end,
+        style: const TextStyle(fontSize: 10.0),
+        Utility.tsToDate(
+            widget.todoList[index].modifiedTs, Constants.DATE_FOAMAT_2));
+  }
+
+  Padding todoTitleWidget(int index) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 6),
+      child: Text(
+          style: const TextStyle(fontSize: 18.0), widget.todoList[index].todo),
     );
   }
 }
