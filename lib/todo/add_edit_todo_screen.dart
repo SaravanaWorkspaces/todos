@@ -45,7 +45,7 @@ class _AddEditPageState extends State<AddEditPage> {
       context.read<TodoBloc>().add(GetTodoDetail(widget.todoId!));
     }
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(Constants.ADD_EDIT_TODO),
         actionsIconTheme: const IconThemeData(color: Colors.white),
@@ -117,7 +117,11 @@ class _AddEditPageState extends State<AddEditPage> {
             }
             return Form(
               child: Column(
-                children: [_todoTextFormField(), _bottomViewInsideExpanded()],
+                children: [
+                  _todoTextFormField(),
+                  _descTextFormField(),
+                  _completeCheckbox(),
+                ],
               ),
             );
           },
@@ -158,16 +162,6 @@ class _AddEditPageState extends State<AddEditPage> {
         ],
       ),
     );
-  }
-
-  _bottomViewInsideExpanded() {
-    return Expanded(
-        child: Column(
-      children: [
-        _descTextFormField(),
-        _completeCheckbox(),
-      ],
-    ));
   }
 
   _descTextFormField() {
